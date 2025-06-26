@@ -1,0 +1,15 @@
+# Core packages that work reliably on Streamlit Cloud
+streamlit
+openai
+feedparser
+requests
+pillow
+
+# Add these one by one after the core works:
+# python-dotenv
+# textblob  
+# deep-translator
+
+# Avoid these on Streamlit Cloud:
+# pyttsx3 (audio doesn't work well)
+# googletrans==4.0.0rc1 (unstable release candidate)
