@@ -25,25 +25,81 @@ import json
 from urllib.parse import urljoin, urlparse
 from deep_translator import GoogleTranslator
 
+# Handle different OpenAI versions
+try:
+    from openai import OpenAI
+
+    NEW_OPENAI = True
+except ImportError:
+    import openai
+
+    NEW_OPENAI = False
+
+# Optional imports with error handling
+try:
+    from dotenv import load_dotenv
+
+    DOTENV_AVAILABLE = True
+except ImportError:
+    DOTENV_AVAILABLE = False
+
+try:
+    from deep_translator import GoogleTranslator
+
+    TRANSLATOR_AVAILABLE = True
+except ImportError:
+    TRANSLATOR_AVAILABLE = False
+
 # Configuration
-# Only load .env for local development
-if not st.runtime.exists():
-    load_dotenv()
+if DOTENV_AVAILABLE:
+    try:
+        load_dotenv()
+    except:
+        pass
 
 # Get API key - prioritize Streamlit secrets for deployment
 try:
-    # For Streamlit Cloud deployment
     api_key = st.secrets["OPENAI_API_KEY"]
 except (KeyError, FileNotFoundError):
-    # Fallback to environment variable for local development
     api_key = os.getenv("OPENAI_API_KEY")
 
 if not api_key:
     st.error("OpenAI API key not found. Please configure it in Streamlit secrets or environment variables.")
     st.stop()
 
-# Initialize OpenAI client
-client = OpenAI(api_key=api_key)
+# Initialize OpenAI client based on version
+if NEW_OPENAI:
+    # New OpenAI library (v1.0+)
+    client = OpenAI(api_key=api_key)
+
+
+    def get_openai_response(messages, model="gpt-3.5-turbo", max_tokens=None):
+        try:
+            response = client.chat.completions.create(
+                model=model,
+                messages=messages,
+                max_tokens=max_tokens
+            )
+            return response.choices[0].message.content
+        except Exception as e:
+            st.error(f"OpenAI API error: {str(e)}")
+            return None
+else:
+    # Old OpenAI library (v0.x)
+    openai.api_key = api_key
+
+
+    def get_openai_response(messages, model="gpt-3.5-turbo", max_tokens=None):
+        try:
+            response = openai.ChatCompletion.create(
+                model=model,
+                messages=messages,
+                max_tokens=max_tokens
+            )
+            return response.choices[0].message.content
+        except Exception as e:
+            st.error(f"OpenAI API error: {str(e)}")
+            return None
 
 # Multiple free models with fallback
 FREE_MODELS = [
