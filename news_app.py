@@ -2,7 +2,7 @@ import streamlit as st
 import feedparser
 from datetime import datetime, timedelta
 import pyttsx3
-import openai
+from openai import OpenAI
 import os
 from dotenv import load_dotenv
 import re
@@ -26,12 +26,24 @@ from urllib.parse import urljoin, urlparse
 from deep_translator import GoogleTranslator
 
 # Configuration
-load_dotenv()
+# Only load .env for local development
+if not st.runtime.exists():
+    load_dotenv()
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
-if not openai.api_key:
-    st.error("❌ OpenAI API key is not set. Please add it to .env or Streamlit Secrets.")
+# Get API key - prioritize Streamlit secrets for deployment
+try:
+    # For Streamlit Cloud deployment
+    api_key = st.secrets["OPENAI_API_KEY"]
+except (KeyError, FileNotFoundError):
+    # Fallback to environment variable for local development
+    api_key = os.getenv("OPENAI_API_KEY")
+
+if not api_key:
+    st.error("OpenAI API key not found. Please configure it in Streamlit secrets or environment variables.")
     st.stop()
+
+# Initialize OpenAI client
+client = OpenAI(api_key=api_key)
 
 # Multiple free models with fallback
 FREE_MODELS = [
@@ -70,12 +82,10 @@ def init_openai_client():
         st.error("⚠️ OpenAI API key not found. Please set OPENAI_API_KEY in your .env file")
         return None
 
-    openai.api_key = api_key
-
-response = openai.ChatCompletion.create(
-    model="gpt-4o-mini",
-    messages=[{"role": "user", "content": "Hello"}]
-)
+    return OpenAI(
+        api_key=api_key,
+        base_url="https://openrouter.ai/api/v1"
+    )
 
 
 @st.cache_resource
