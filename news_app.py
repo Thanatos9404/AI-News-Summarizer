@@ -2,7 +2,7 @@ import streamlit as st
 import feedparser
 from datetime import datetime, timedelta
 import pyttsx3
-from openai import OpenAI
+import openai
 import os
 from dotenv import load_dotenv
 import re
@@ -65,10 +65,12 @@ def init_openai_client():
         st.error("⚠️ OpenAI API key not found. Please set OPENAI_API_KEY in your .env file")
         return None
 
-    return OpenAI(
-        api_key=api_key,
-        base_url="https://openrouter.ai/api/v1"
-    )
+    openai.api_key = api_key
+
+response = openai.ChatCompletion.create(
+    model="gpt-4o-mini",
+    messages=[{"role": "user", "content": "Hello"}]
+)
 
 
 @st.cache_resource
