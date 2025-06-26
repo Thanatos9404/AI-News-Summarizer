@@ -28,6 +28,11 @@ from deep_translator import GoogleTranslator
 # Configuration
 load_dotenv()
 
+openai.api_key = os.getenv("OPENAI_API_KEY")
+if not openai.api_key:
+    st.error("❌ OpenAI API key is not set. Please add it to .env or Streamlit Secrets.")
+    st.stop()
+
 # Multiple free models with fallback
 FREE_MODELS = [
     "google/gemma-2-9b-it:free",
