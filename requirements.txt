@@ -1,0 +1,11 @@
+streamlit
+feedparser
+pyttsx3
+openai
+python-dotenv
+requests
+Pillow
+textblob
+googletrans==4.0.0-rc1
+deep-translator
+urllib3
