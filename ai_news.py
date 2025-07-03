@@ -19,7 +19,7 @@ from PIL import Image
 from io import BytesIO
 import base64
 from textblob import TextBlob
-# from googletrans import Translator
+from googletrans import Translator
 from urllib.parse import urljoin, urlparse, quote_plus, urlunparse, parse_qs
 from deep_translator import GoogleTranslator
 import spacy
@@ -33,8 +33,8 @@ import requests
 logging.basicConfig(
     level=logging.DEBUG,
     format='%(asctime)s - %(levelname)s - %(message)s',
-    #filename='../Sample_AI_News/debug_log.txt',
-    #filemode='w'
+    filename='../Sample_AI_News/debug_log.txt',
+    filemode='w'
 )
 
 # --- Configuration ---
@@ -545,7 +545,7 @@ LANGUAGES = {
     'de': 'German', 'zh': 'Chinese', 'ja': 'Japanese', 'ar': 'Arabic',
     'pt': 'Portuguese', 'ru': 'Russian'
 }
-translator = GoogleTranslator(source='auto', target='en')
+translator = Translator()
 
 
 # --- Initializations ---
