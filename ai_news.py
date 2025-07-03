@@ -571,19 +571,6 @@ def init_tts_engine():
         return None
 
 
-def download_spacy_model(model_name="en_core_web_sm"):
-    try:
-        spacy.load(model_name)
-    except OSError:
-        st.warning(f"SpaCy model '{model_name}' not found. Downloading...")
-        os.system(f"python -m spacy download {model_name}")
-        st.success(f"SpaCy model '{model_name}' downloaded successfully!")
-        spacy.load(model_name) # Load it after successful download
-
-download_spacy_model("en_core_web_sm")
-nlp = spacy.load("en_core_web_sm") # Now this should succeed
-
-
 @st.cache_resource
 def load_spacy_model():
     try:
