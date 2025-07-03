@@ -9,11 +9,6 @@
         "runtime": "python3.9"
       }
     },
-    {
-      "src": "Dockerfile",
-      "use": "@vercel/docker"
-    }
-  ],
   "routes": [
     {
       "src": "/api/(.*)",
