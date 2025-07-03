@@ -33,8 +33,8 @@ import requests
 logging.basicConfig(
     level=logging.DEBUG,
     format='%(asctime)s - %(levelname)s - %(message)s',
-    filename='../Sample_AI_News/debug_log.txt',
-    filemode='w'
+    #filename='../Sample_AI_News/debug_log.txt',
+    #filemode='w'
 )
 
 # --- Configuration ---
