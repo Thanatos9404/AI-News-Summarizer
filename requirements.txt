@@ -1,0 +1,17 @@
+streamlit
+feedparser
+pyttsx3
+openai
+python-dotenv
+requests
+Pillow
+textblob
+googletrans==4.0.0-rc1
+deep-translator
+urllib3
+spacy
+scikit-learn
+Flask
+google-auth-oauthlib
+google-api-python-client
+google-auth
