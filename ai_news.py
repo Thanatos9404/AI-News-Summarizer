@@ -545,7 +545,7 @@ LANGUAGES = {
     'de': 'German', 'zh': 'Chinese', 'ja': 'Japanese', 'ar': 'Arabic',
     'pt': 'Portuguese', 'ru': 'Russian'
 }
-translator = Translator()
+translator = GoogleTranslator(source='auto', target='en')
 
 
 # --- Initializations ---
