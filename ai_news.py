@@ -19,7 +19,7 @@ from PIL import Image
 from io import BytesIO
 import base64
 from textblob import TextBlob
-from googletrans import Translator
+# from googletrans import Translator
 from urllib.parse import urljoin, urlparse, quote_plus, urlunparse, parse_qs
 from deep_translator import GoogleTranslator
 import spacy
